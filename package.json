@@ -1,7 +1,7 @@
 {
   "name": "twilio-demo-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Server for UHS Hack Club twilio demo",
   "main": "index.js",
   "dependencies": {
     "express": "^4.12.3",
