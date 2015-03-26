@@ -1,0 +1,25 @@
+{
+  "name": "twilio-demo-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.12.2",
+    "express": "^4.12.3",
+    "twilio": "^1.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/softwaredevclub/twilio-demo-server.git"
+  },
+  "author": "UHS Hack Club",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/softwaredevclub/twilio-demo-server/issues"
+  },
+  "homepage": "https://github.com/softwaredevclub/twilio-demo-server"
+}
