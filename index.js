@@ -1,20 +1,13 @@
-var express = require('express')
-var app = express()
-var bodyParser = require('body-parser')
-
-app.use(bodyParser.urlencoded({extended:false}))
-app.use(bodyParser.json())
-
+var app = require('express')()
 var custom = require('./custom')
 var client = require('twilio')(custom.accountSid, custom.authToken)
 
 app.get('/', function(req, res) {
     console.log('/')
-    res.send('hi')
+    res.send('You probably shouldn\'t be here...')
 })
 
 app.get('/send', function(req, res) {
-    console.log(req.query)
     var name = req.query.name
     var phone = req.query.phone
     phone = (phone?phone.replace(/\D/g, '').trim():'')
@@ -22,11 +15,11 @@ app.get('/send', function(req, res) {
     if(!name) {
         // name is null, undefined, empty, etc
         console.log('undefined name')
-        res.status(406).jsonp({success:false, message:'Please enter your name'})
-    } else if(phone.length < 10 &&  phone.length !== 7) {
+        res.jsonp({status:400, error:'Invalid name'})
+    } else if(phone.length < 10 && phone.length !== 7) {
         // phone number isn't working out
         console.log('invalid phone number')
-        res.status(406).jsonp({success:false, message:'Please enter a valid phone number'})
+        res.jsonp({status:400, error:'Invalid phone number'})
     } else {
         // All valid
         if(phone.length > 10) // assuming full number already
@@ -41,13 +34,16 @@ app.get('/send', function(req, res) {
                 to: phoneString,
                 from: custom.from
             }, function(err, message) {
-                console.log(message.sid)
+                if(err) {
+                    console.log("err: " + JSON.stringify(err))
+                    res.jsonp({status:400, error:err.message})
+                } else {
+                    console.log("message sent: " + message.sid)
+                    res.jsonp({status:200, message:'sent'})
+                }
             })
-
-            // 200, swag on you
-            res.status(200).jsonp({success:true, message:'yay'})
     }
 })
 
 app.listen(3002)
-console.log('Listening on 3002')
+console.log('Listening on 3002...')
